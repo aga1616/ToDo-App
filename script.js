@@ -310,11 +310,9 @@ const closePopup = () => {
 	popupInfo.textContent = ''
 	document.body.style.marginBottom = ''
 
-	// fokus tylko na desktopie, na mobile otworzyłby klawiaturę
-	if (window.matchMedia('(min-width: 576px)').matches) {
-		if (canAutoFocus()) {
-			todoInput.focus()
-		}
+	// focus tylko na desktopie, na mobile otworzyłby klawiaturę
+	if (canAutoFocus()) {
+		todoInput.focus()
 	}
 }
 
