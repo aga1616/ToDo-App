@@ -1,0 +1,423 @@
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--light: #f5f5f5;
+	--light-grey: #f7f7f7;
+	--shadow-color: #d9d9d9;
+	--dark-grey: #242424;
+	--popup-color: #4f4f4f;
+	--bg-color: #c8c7c7;
+
+	/* Kolory motywów */
+	--theme-pink: linear-gradient(340deg, #ce4fd5, #f720d3);
+	--theme-orange: linear-gradient(340deg, #cda024, #c88330);
+	--theme-blue: linear-gradient(340deg, #7d9bf5, #383f65);
+	--theme-green: linear-gradient(340deg, #0f602a, #74af8a);
+
+	/* Aktywny kolor motywu (domyślny: orange) */
+	--theme-color: var(--theme-orange);
+}
+
+html {
+	scrollbar-gutter: stable;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	font-size: 16px;
+	font-family: 'Poppins', sans-serif;
+	background-color: var(--bg-color);
+}
+
+/* todo list */
+.todo {
+	position: relative;
+	width: 100%;
+	max-width: 700px;
+	text-align: center;
+	background-color: #fff;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
+
+.header {
+	position: relative;
+	background-image: var(--theme-color);
+	padding: 40px;
+}
+
+.todo-title {
+	margin-bottom: 20px;
+	color: var(--light);
+	text-transform: uppercase;
+}
+
+.todo-input {
+	width: 90%;
+	padding: 10px 20px;
+	font-size: 16px;
+}
+
+.add-btn {
+	padding: 10px 20px;
+	width: 90%;
+	margin-top: 10px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.popup-input,
+.todo-input,
+.add-btn,
+.accept-btn,
+.cancel-btn {
+	font: inherit;
+}
+
+.add-btn,
+.accept-btn,
+.cancel-btn {
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
+
+.todo-list {
+	padding: 20px 0;
+}
+
+.alert-info {
+	font-size: 16px;
+	margin-top: 20px;
+	color: var(--dark-grey);
+}
+
+.todo-list li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	word-break: break-word;
+	margin: 15px;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	padding-left: 20px;
+	list-style: none;
+	color: var(--dark-grey);
+	background-color: var(--light-grey);
+	transition: border 0.3s;
+}
+
+.todo-list li:hover {
+	border: 1px solid var(--shadow-color);
+}
+
+.todo-list li label {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	padding: 3px;
+}
+
+.custom-checkbox {
+	position: relative;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	margin-right: 5px;
+	border: 3px solid transparent;
+	border-radius: 50%;
+	flex-shrink: 0;
+	background-image: linear-gradient(var(--light-grey), var(--light-grey)), var(--theme-color);
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+}
+
+.custom-checkbox i {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: transparent;
+	font-size: 13px;
+}
+
+input[type='checkbox']:checked + .custom-checkbox {
+	background-image: var(--theme-color);
+	background-clip: border-box;
+}
+
+input[type='checkbox']:checked + .custom-checkbox i {
+	color: var(--light);
+}
+
+input[type='checkbox'] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}
+
+.todo-text {
+	overflow-wrap: break-word;
+	flex: 1 1 auto;
+	padding: 5px;
+	font-size: 16px;
+	text-align: justify;
+	cursor: pointer;
+}
+
+.control-btns {
+	display: flex;
+}
+
+.control-btns button {
+	padding: 10px;
+	border: none;
+	color: var(--popup-color);
+	background-color: transparent;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.delete-btn,
+.edit-btn {
+	font-size: 16px;
+}
+
+/* Ustawienia */
+
+.settings-wrapper {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 10;
+}
+
+.settings-btn {
+	padding: 5px;
+	background: none;
+	border: none;
+	font-size: 20px;
+	color: var(--light);
+	cursor: pointer;
+	transition: color 0.3s;
+}
+
+.settings-btn:hover {
+	color: var(--shadow-color);
+}
+
+.settings-panel {
+	position: absolute;
+	top: 37px;
+	right: -4px;
+	display: none;
+	background-color: var(--light-grey);
+	border-radius: 5px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.settings-panel.show {
+	display: block;
+}
+
+.panel-top {
+	display: none;
+}
+
+.color-options {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	margin: 4px;
+}
+
+.color-btn {
+	width: 25px;
+	height: 25px;
+	margin: 4px;
+	border-radius: 50%;
+	border: none;
+	cursor: pointer;
+	transition: transform 0.2s;
+}
+
+.color-btn:hover {
+	transform: scale(1.1);
+}
+
+.color-pink {
+	background-image: var(--theme-pink);
+}
+
+.color-orange {
+	background-image: var(--theme-orange);
+}
+
+.color-blue {
+	background-image: var(--theme-blue);
+}
+
+.color-green {
+	background-image: var(--theme-green);
+}
+
+/* Popup */
+.popup {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	position: fixed;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 95%;
+	max-width: 700px;
+	color: var(--light);
+	border-radius: 5px;
+	background-color: var(--popup-color);
+}
+
+.popup-title {
+	padding: 10px;
+	font-size: 16px;
+	letter-spacing: 1px;
+}
+
+.popup-body {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: 90%;
+	padding: 0 0 10px;
+}
+
+.popup-info {
+	margin-bottom: 10px;
+	color: var(--light);
+}
+
+.popup-input {
+	width: 100%;
+	padding: 10px 20px;
+	font-size: 16px;
+}
+
+.popup-btn {
+	/* display: inline-block; - button ma domyślnie inline-block */
+	width: calc(50% - 30px);
+	padding: 10px;
+	margin: 10px 10px 0;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+/* Ogólne */
+
+.basic-btn {
+	border: none;
+	border-radius: 5px;
+	color: var(--dark-grey);
+	background-color: var(--light);
+}
+
+.shadow:hover {
+	background-color: var(--shadow-color);
+}
+
+.completed {
+	color: #707070;
+	text-decoration: line-through;
+}
+
+/* Media queries */
+@media (min-width: 576px) {
+	body {
+		margin: 20px 0;
+	}
+
+	.todo {
+		width: 95%;
+	}
+
+	.header {
+		border-radius: 10px 10px 0 0;
+	}
+
+	.settings-panel {
+		right: 35px;
+		top: 10px;
+		width: 220px;
+		padding: 8px;
+	}
+
+	.panel-top {
+		display: flex;
+		padding: 0 10px;
+		justify-content: space-between;
+	}
+
+	.settings-title {
+		font-size: 16px;
+		color: var(--dark-grey);
+	}
+
+	.settings-panel .close-btn {
+		cursor: pointer;
+		color: var(--dark-grey);
+		transition: background-color 0.3s;
+	}
+
+	.settings-panel .fa-xmark {
+		font-size: 20px;
+		padding: 0 3px;
+	}
+
+	.color-options {
+		flex-direction: row;
+		margin: 4px;
+	}
+
+	.color-btn {
+		width: 27px;
+		height: 27px;
+	}
+
+	.todo-input {
+		width: 80%;
+		margin-right: 20px;
+	}
+
+	.add-btn {
+		width: auto;
+	}
+
+	.popup-title {
+		padding: 20px;
+	}
+
+	.popup-body {
+		padding: 10px;
+	}
+
+	.popup-btn {
+		width: 30%;
+		padding: 10px 20px;
+		margin: 20px;
+	}
+}
+
+@media (min-width: 992px) {
+	body {
+		margin: 70px 0;
+	}
+}

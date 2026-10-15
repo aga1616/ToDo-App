@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <title>ToDo App</title>
+    <meta name="description" content="A simple ToDo app built in pure JavaScript.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./main.css">
+    <script src="https://kit.fontawesome.com/bbd06b4ae2.js" crossorigin="anonymous" defer></script>
+
+    <!-- Ustawiamy zapisany motyw zanim przeglądarka wyrenderuje stronę. Dzięki temu nie widać "mignięcia" domyślnego motywu  (orange), które występowało, gdy motyw ustawiał dopiero script.js. -->
+    <script>
+        try {
+            const theme = localStorage.getItem('theme')
+            if (theme) {
+                document.documentElement.style.setProperty('--theme-color', `var(${theme})`)
+            }
+        } catch (e) { }
+    </script>
+</head>
+
+<body>
+    <main class="todo">
+        <header class="header">
+            <h1 class="todo-title">ToDo List</h1>
+            <input type="text" class="todo-input basic-btn" placeholder="Enter task content..." maxlength="60"
+                aria-label="Enter task content">
+            <button type="button" class="add-btn basic-btn shadow">ADD</button>
+
+            <!-- Panel ustawień -->
+            <div class="settings-wrapper">
+                <button type="button" class="settings-btn" title="Settings" aria-label="Settings"><i
+                        class="fa-solid fa-paintbrush"></i></button>
+                <div class="settings-panel" role="dialog" aria-label="Select theme color" aria-hidden="true">
+                    <div class="panel-top">
+                        <h2 class="settings-title">Select theme color</h2>
+                        <button class="close-btn basic-btn shadow" aria-label="Close settings panel"><i
+                                class="fa-solid fa-xmark"></i></button>
+                    </div>
+
+                    <div class="color-options">
+                        <button type="button" class="color-btn color-pink" data-color="--theme-pink" title="Pink"
+                            aria-label="Pink"></button>
+                        <button type="button" class="color-btn color-orange" data-color="--theme-orange" title="Orange"
+                            aria-label="Orange"></button>
+                        <button type="button" class="color-btn color-blue" data-color="--theme-blue" title="Blue"
+                            aria-label="Blue"></button>
+                        <button type="button" class="color-btn color-green" data-color="--theme-green" title="Green"
+                            aria-label="Green"></button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="todo-list">
+            <p class="alert-info">No tasks on the list.</p>
+            <ul aria-live="polite">
+
+            </ul>
+        </section>
+    </main>
+
+    <!-- Popup edycji zadania -->
+    <div class="popup" role="dialog" aria-label="Edit task">
+        <h3 class="popup-title">Edit task:</h3>
+        <div class="popup-body">
+            <p class="popup-info"></p>
+            <input type="text" class="popup-input basic-btn" placeholder="Enter new task content..." maxlength="60"
+                aria-label="New task content">
+            <button class="popup-btn basic-btn accept-btn shadow">Save</button>
+            <button class="popup-btn basic-btn cancel-btn shadow">Close</button>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
