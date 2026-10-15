@@ -123,6 +123,13 @@ const prepareDOMEvents = () => {
 		window.visualViewport.addEventListener('scroll', updatePopupPosition)
 	}
 
+	// Gdy popup jest otwarty, kliknięcie ołówka nie zabiera focus z inputu. Inaczej klawiatura na mobile się chowa i wraca, a strona skacze.
+	ulList.addEventListener('mousedown', e => {
+		if (popup.style.display === 'flex' && e.target.closest('.edit-btn')) {
+			e.preventDefault()
+		}
+	})
+
 	addBtn.addEventListener('click', addNewTask)
 	todoInput.addEventListener('keydown', enterCheck)
 	ulList.addEventListener('click', checkClick)
@@ -213,7 +220,7 @@ const editTask = e => {
 
 	popup.style.display = 'flex'
 	updatePopupPosition()
-	popupInput.focus()
+	popupInput.focus({ preventScroll: true })
 }
 
 // Funkcja odpowiadająca za zapisanie zmian wprowadzonych przez użytkownika w oknie popup
