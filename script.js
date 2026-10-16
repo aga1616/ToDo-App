@@ -17,13 +17,13 @@ const popupInput = document.querySelector('.popup-input') // input w popupie
 const popupAcceptBtn = document.querySelector('.accept-btn') // przycisk zatwierdzający zmiany w popupie
 const popupCancelBtn = document.querySelector('.cancel-btn') // przycisk anulujący zmiany w popupie
 
-const canAutoFocus = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches // Funkcja sprawdzająca, czy urządzenie obsługuje autofocus (desktop) czy nie (mobile)
-
 const main = () => {
 	// funkcja ta odpala się po załadowaniu całego DOM, następnie wywołuje prepareDOMEvents
 
 	prepareDOMEvents()
-	if (canAutoFocus()) todoInput.focus() // autofocus tylko na desktopie
+	if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+		todoInput.focus()
+	} // autofocus tylko na desktopie
 
 	loadTasks() // ładowanie zadań z localStorage
 	// loadTheme() // motyw ładowany jest w HTML w sekcji head
@@ -309,11 +309,6 @@ const closePopup = () => {
 	popup.style.bottom = ''
 	popupInfo.textContent = ''
 	document.body.style.marginBottom = ''
-
-	// focus tylko na desktopie, na mobile otworzyłby klawiaturę
-	if (canAutoFocus()) {
-		todoInput.focus()
-	}
 }
 
 // Funkcja odpowiadająca za accessibility
