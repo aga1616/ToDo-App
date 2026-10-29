@@ -15,10 +15,10 @@
 	--bg-color: #c8c7c7;
 
 	/* Kolory motywów */
-	--theme-pink: linear-gradient(340deg, #ce4fd5, #f720d3);
+	--theme-pink: linear-gradient(340deg, #bd55c2, #9e2f8c);
 	--theme-orange: linear-gradient(340deg, #cda024, #c88330);
 	--theme-blue: linear-gradient(340deg, #7d9bf5, #383f65);
-	--theme-green: linear-gradient(340deg, #0f602a, #74af8a);
+	--theme-green: linear-gradient(340deg, #0f2d19, #74af8a);
 
 	/* Aktywny kolor motywu (domyślny: orange) */
 	--theme-color: var(--theme-orange);
@@ -314,7 +314,7 @@ input[type='checkbox'] {
 
 .popup-btn {
 	/* display: inline-block; - button ma domyślnie inline-block */
-	width: calc(50% - 30px);
+	width: calc(50% - 50px);
 	padding: 10px;
 	margin: 10px 10px 0;
 	text-transform: uppercase;

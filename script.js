@@ -374,7 +374,7 @@ const saveTasks = () => {
 const loadTasks = () => {
 	let data = { tasks: [], maxId: 0 }
 
-	//uszkodzone dane lub brak dostępu do localStorage nie mogę wywalić aplikacji
+	//uszkodzone dane lub brak dostępu do localStorage nie mogą wywalić aplikacji
 	try {
 		const parsed = JSON.parse(localStorage.getItem('tasks'))
 
