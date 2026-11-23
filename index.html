@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./main.css">
     <script src="https://kit.fontawesome.com/bbd06b4ae2.js" crossorigin="anonymous" defer></script>
 
-    <!-- Ustawiamy zapisany motyw zanim przeglądarka wyrenderuje stronę. Dzięki temu nie widać "mignięcia" domyślnego motywu  (orange), które występowało, gdy motyw ustawiał dopiero script.js. -->
+    <!-- The theme is set before the browser renders the page. This way, we don't see the "flash" of the default theme (orange), which occurred when the theme was set only by script.js. -->
     <script>
         try {
             const theme = localStorage.getItem('theme')
@@ -31,7 +31,7 @@
                 aria-label="Enter task content">
             <button type="button" class="add-btn basic-btn shadow">ADD</button>
 
-            <!-- Panel ustawień -->
+            <!-- Settings Panel -->
             <div class="settings-wrapper">
                 <button type="button" class="settings-btn" title="Settings" aria-label="Settings"><i
                         class="fa-solid fa-paintbrush"></i></button>
@@ -64,7 +64,7 @@
         </section>
     </main>
 
-    <!-- Popup edycji zadania -->
+    <!-- Popup -->
     <div class="popup" role="dialog" aria-label="Edit task">
         <h3 class="popup-title">Edit task:</h3>
         <div class="popup-body">

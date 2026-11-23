@@ -36,7 +36,6 @@ body {
 	background-color: var(--bg-color);
 }
 
-/* todo list */
 .todo {
 	position: relative;
 	width: 100%;
@@ -191,8 +190,6 @@ input[type='checkbox'] {
 	font-size: 16px;
 }
 
-/* Ustawienia */
-
 .settings-wrapper {
 	position: absolute;
 	top: 10px;
@@ -270,7 +267,6 @@ input[type='checkbox'] {
 	background-image: var(--theme-green);
 }
 
-/* Popup */
 .popup {
 	display: none;
 	align-items: center;
@@ -313,15 +309,12 @@ input[type='checkbox'] {
 }
 
 .popup-btn {
-	/* display: inline-block; - button ma domyślnie inline-block */
 	width: calc(50% - 50px);
 	padding: 10px;
 	margin: 10px 10px 0;
 	text-transform: uppercase;
 	cursor: pointer;
 }
-
-/* Ogólne */
 
 .basic-btn {
 	border: none;
@@ -339,7 +332,6 @@ input[type='checkbox'] {
 	text-decoration: line-through;
 }
 
-/* Media queries */
 @media (min-width: 576px) {
 	body {
 		margin: 20px 0;

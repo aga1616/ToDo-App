@@ -1,44 +1,41 @@
-const todoInput = document.querySelector('.todo-input') // miejsce gdzie użytkownik wpisuje treść
-const addBtn = document.querySelector('.add-btn') // przycisk dodający nowe zadanie
-const alertInfo = document.querySelector('.alert-info') // alert informujący o braku zadań na liście
+const todoInput = document.querySelector('.todo-input')
+const addBtn = document.querySelector('.add-btn')
+const alertInfo = document.querySelector('.alert-info')
 
-const settingsBtn = document.querySelector('.settings-btn') // przycisk otwierający panel ustawień
-const settingsPanel = document.querySelector('.settings-panel') // panel ustawień
-const closeBtn = document.querySelector('.close-btn') // przycisk zamykający panel ustawień
-const colorBtns = document.querySelectorAll('.color-btn') // przyciski wyboru koloru motywu
+const settingsBtn = document.querySelector('.settings-btn')
+const settingsPanel = document.querySelector('.settings-panel')
+const closeBtn = document.querySelector('.close-btn')
+const colorBtns = document.querySelectorAll('.color-btn')
 
-const ulList = document.querySelector('.todo-list ul') // lista zadań
+const ulList = document.querySelector('.todo-list ul')
 let idNumber = 0 // unikalne id dla każdego zadania
 
-const popup = document.querySelector('.popup') // popup do edycji
-const popupInfo = document.querySelector('.popup-info') // informacja w popupie
-let editedTask // edytowane zadanie
-const popupInput = document.querySelector('.popup-input') // input w popupie
-const popupAcceptBtn = document.querySelector('.accept-btn') // przycisk zatwierdzający zmiany w popupie
-const popupCancelBtn = document.querySelector('.cancel-btn') // przycisk anulujący zmiany w popupie
+const popup = document.querySelector('.popup')
+const popupInfo = document.querySelector('.popup-info')
+let editedTask
+const popupInput = document.querySelector('.popup-input')
+const popupAcceptBtn = document.querySelector('.accept-btn')
+const popupCancelBtn = document.querySelector('.cancel-btn')
 
 const main = () => {
-	// funkcja ta odpala się po załadowaniu całego DOM, następnie wywołuje prepareDOMEvents
+	// function fires after the entire DOM is loaded, then calls prepareDOMEvents
 
 	prepareDOMEvents()
 	if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
 		todoInput.focus()
-	} // autofocus tylko na desktopie
+	} // autofocus only on desktop
 
-	loadTasks() // ładowanie zadań z localStorage
-	// loadTheme() // motyw ładowany jest w HTML w sekcji head
+	loadTasks() // loading tasks from localStorage
 }
 
 const prepareDOMEvents = () => {
-	// W tej funkcji dodajemy wszystkie potrzebne nasłuchiwacze zdarzeń (addEventListener)
-
-	// Ustawianie początkowej wartości aria-hidden
+	// Setting initial value of aria-hidden
 	if (!settingsPanel.classList.contains('show')) {
 		settingsPanel.setAttribute('aria-hidden', 'true')
 	}
 
-	// PANEL USTAWIEŃ
-	//Włączanie i wylączanie panelu ustawień
+	// SETTING PANEL
+	//Enabling and disabling the settings panel
 	settingsBtn.addEventListener('click', () => {
 		settingsPanel.classList.toggle('show')
 		if (settingsPanel.classList.contains('show')) {
@@ -48,13 +45,13 @@ const prepareDOMEvents = () => {
 		}
 	})
 
-	//Zamykanie panelu ustawień za pomocą X
+	// Closing settings panel with X
 	closeBtn.addEventListener('click', () => {
 		settingsPanel.classList.remove('show')
 		settingsPanel.setAttribute('aria-hidden', 'true')
 	})
 
-	// KLIKNIĘCIE POZA PANEL USTAWIEŃ ORAZ INPUT
+	// CLICKING OUTSIDE THE SETTINGS PANEL AND INPUT
 	window.addEventListener('click', e => {
 		// SETTINGS PANEL
 		if (
@@ -67,15 +64,11 @@ const prepareDOMEvents = () => {
 		}
 
 		// POPUP
-		if (
-			popup.style.display === 'flex' && // popup jest otwarty
-			!e.target.closest('.edit-btn') && // kliknięcie NIE było na przycisku edycji
-			!e.target.closest('.popup') // liknięcie NIE było w popupie
-		) {
+		if (popup.style.display === 'flex' && !e.target.closest('.edit-btn') && !e.target.closest('.popup')) {
 			closePopup()
 		}
 
-		// Ukrywanie alertu 'Enter task content' po kliknięciu poza input
+		// Hiding the alert 'Enter task content' when clicking outside the input
 		if (
 			alertInfo.textContent === 'Enter task content!' &&
 			!e.target.closest('.todo-input') &&
@@ -84,30 +77,28 @@ const prepareDOMEvents = () => {
 			const currentTasks = ulList.querySelectorAll('li')
 
 			if (currentTasks.length === 0) {
-				// Jeśli lista jest pusta, przywracamy pierwotny stan informacyjny
 				alertInfo.textContent = 'No tasks on the list.'
 			} else {
-				// Jeśli na liście są zadania, całkowicie czyścimy tekst błędu
 				alertInfo.textContent = ''
 			}
 		}
 	})
 
-	// Zmiana treści task jeśli klikniemy na Enter
+	// Changing task content if we click Enter
 	popupInput.addEventListener('keydown', e => {
 		if (e.key === 'Enter') {
 			changeTask()
 		}
 	})
 
-	// Zamykanie popupa po kliknięciu Esc
+	// Closing popup when pressing Esc
 	document.addEventListener('keydown', e => {
 		if (e.key === 'Escape' && popup.style.display === 'flex') {
 			closePopup()
 		}
 	})
 
-	//Zmiana koloru motywu
+	//Changing theme color
 	colorBtns.forEach(btn => {
 		btn.addEventListener('click', () => {
 			const theme = btn.getAttribute('data-color')
@@ -119,13 +110,13 @@ const prepareDOMEvents = () => {
 		})
 	})
 
-	// Aktualizacja pozycji popupa przy zmianie widocznego obszaru (np. pojawienie się klawiatury na mobile
+	// Updating popup position when the visible area changes (e.g., keyboard appearance on mobile)
 	if (window.visualViewport) {
 		window.visualViewport.addEventListener('resize', updatePopupPosition)
 		window.visualViewport.addEventListener('scroll', updatePopupPosition)
 	}
 
-	// Gdy popup jest otwarty, kliknięcie ołówka nie zabiera focus z inputu. Inaczej klawiatura na mobile się chowa i wraca, a strona skacze.
+	// When the popup is open, clicking the pencil icon doesn't steal focus from the input. Otherwise, the mobile keyboard would hide and show again, and the page would jump.
 	ulList.addEventListener('mousedown', e => {
 		if (popup.style.display === 'flex' && e.target.closest('.edit-btn')) {
 			e.preventDefault()
@@ -141,7 +132,7 @@ const prepareDOMEvents = () => {
 	popupCancelBtn.addEventListener('click', closePopup)
 }
 
-// Tworzymy element li
+// Function creates a new task element and returns it
 const createTaskElement = ({ id, text, completed = false }) => {
 	const li = document.createElement('li')
 	li.setAttribute('id', id)
@@ -165,7 +156,7 @@ const createTaskElement = ({ id, text, completed = false }) => {
 	return li
 }
 
-// Funkcja dodaje zadnie na początek listy; przy pustym polu pokazuje alert
+// Function adds a new task to the beginning of the list; shows an alert if the input is empty
 const addNewTask = () => {
 	if (todoInput.value.trim() !== '') {
 		idNumber++
@@ -185,17 +176,17 @@ const addNewTask = () => {
 	todoInput.focus()
 }
 
-// Wywołanie funkcji addNewTask (dodanie nowego zadania) na kliknięcie klawisza Enter
+// Calling the addNewTask function (adding a new task) when pressing the Enter key
 const enterCheck = e => {
 	if (e.key === 'Enter') {
 		addNewTask()
 	}
 }
 
-// Funkcja obsługująca kliknięcia na przyciski edycji i usuwania
+// Function handling clicks on edit and delete buttons
 const checkClick = e => {
 	const clickedEl = e.target.closest('button')
-	if (!clickedEl) return //Jeśli closest nic nie znalazło (null), czyli kliknięto w tekst zadania, checkbox albo pusty obszar listy, funkcja kończy się od razu. To tzw. guard clause: odsiewa niepasujące przypadki na początku, żeby reszta kodu nie musiała się o nie martwić.
+	if (!clickedEl) return
 
 	if (clickedEl.classList.contains('edit-btn')) {
 		editTask(e)
@@ -204,13 +195,13 @@ const checkClick = e => {
 	}
 }
 
-// Funkcja obsługująca popup edycji zadania, którego przycisk .edit-btn kliknięto
+// Function handling the edit popup for a task whose .edit-btn was clicked
 const editTask = e => {
 	const clickedTask = e.target.closest('li')
 
-	// kliknięto edit-btn w zadaniu, które już edytujemy → zamykamy popup
+	// the edit btn was clicked in a task that we are already editing → close the popup
 	if (popup.style.display === 'flex' && clickedTask === editedTask) {
-		// jeśli popup jest otwarty i kliknięte zadanie (.edit-btn) to to samo, do którego odnosi się otwarty popup to zamknij popup
+		// if the popup is open and the clicked task (.edit-btn) is the same as the one being edited, close the popup
 		closePopup()
 		return
 	}
@@ -225,7 +216,7 @@ const editTask = e => {
 	popupInput.focus({ preventScroll: true })
 }
 
-// Funkcja odpowiadająca za zapisanie zmian wprowadzonych przez użytkownika w oknie popup
+// Function responsible for saving the changes made by the user in the popup
 const changeTask = () => {
 	if (popupInput.value.trim() !== '') {
 		const textElement = editedTask.querySelector('.todo-text')
@@ -250,7 +241,7 @@ const changeTask = () => {
 	}
 }
 
-// Usuwanie zadania z listy
+// Deleting a task from the list
 const deleteTask = e => {
 	const deleteTodo = e.target.closest('li')
 	deleteTodo.remove()
@@ -266,7 +257,7 @@ const deleteTask = e => {
 	}
 }
 
-// Oznaczenie zadania jako wykonane
+// Function for marking a task as completed
 const completedTask = e => {
 	if (e.target.type === 'checkbox') {
 		const li = e.target.closest('li')
@@ -286,7 +277,7 @@ const completedTask = e => {
 	}
 }
 
-// Ustawia popup nad klawiaturą i dodaje miejsce na dole strony, żeby dało się przewinąć zadania ponad popup
+// Sets the popup position above the keyboard and adds space at the bottom of the page so tasks can be scrolled above the popup
 const updatePopupPosition = () => {
 	if (popup.style.display !== 'flex') return
 
@@ -295,7 +286,7 @@ const updatePopupPosition = () => {
 	if (window.visualViewport) {
 		const vv = window.visualViewport
 
-		// wysokość zasłonięta przez klawiaturę
+		// Height covered by the keyboard
 		keyboardHeight = Math.max(window.innerHeight - vv.height - vv.offsetTop, 0)
 	}
 
@@ -303,7 +294,7 @@ const updatePopupPosition = () => {
 	document.body.style.marginBottom = `${keyboardHeight + popup.offsetHeight + 30}px`
 }
 
-// Funkcja odpowiadająca za zamknięcie popup
+// Function responsible for closing the popup
 const closePopup = () => {
 	popup.style.display = 'none'
 	popup.style.bottom = ''
@@ -311,7 +302,7 @@ const closePopup = () => {
 	document.body.style.marginBottom = ''
 }
 
-// Funkcja odpowiadająca za accessibility
+// Function responsible for accessibility
 const handleLabelKeydown = e => {
 	if (!['Enter', ' '].includes(e.key)) return
 
@@ -374,7 +365,7 @@ const saveTasks = () => {
 const loadTasks = () => {
 	let data = { tasks: [], maxId: 0 }
 
-	//uszkodzone dane lub brak dostępu do localStorage nie mogą wywalić aplikacji
+	// corrupted data or lack of access to localStorage cannot crash the application
 	try {
 		const parsed = JSON.parse(localStorage.getItem('tasks'))
 
@@ -393,7 +384,7 @@ const loadTasks = () => {
 		ulList.appendChild(createTaskElement(task))
 	})
 
-	idNumber = data.maxId // Zapisujemy największy numer ID
+	idNumber = data.maxId // Saving the highest ID number
 }
 
 /////////////////////////
