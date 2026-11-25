@@ -2,8 +2,7 @@
 
 A simple ToDo list app built with pure HTML, CSS and vanilla JavaScript.
 
-**[Live demo]
-https://aga1616.github.io/ToDo-App/**
+**[Live demo](https://aga1616.github.io/ToDo-App/)**
 
 ![ToDo App screenshot](./ToDo_app_screenshot.webp)
 
