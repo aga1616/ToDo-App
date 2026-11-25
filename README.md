@@ -7,7 +7,7 @@ https://aga1616.github.io/ToDo-App/**
 
 ![ToDo App screenshot](./ToDo_app_screenshot.webp)
 
-## Table od Contents
+## Table of Contents
 
 - [Features](#features)
 - [Technologies](#technologies)
